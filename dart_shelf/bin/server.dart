@@ -22,7 +22,7 @@ Response _echoHandler(Request request) {
 }
 
 Future<Response> _dataHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllDailyTracks();
+  List<Event> events = await DB.instance.getAllEvents();
 
   return Response.ok('${events.length}\n');
 }
@@ -30,6 +30,7 @@ Future<Response> _dataHandler(Request request) async {
 void main(List<String> args) async {
   // start HiveDB
   Hive.init('/hive');
+  Hive.registerAdapter(EventAdapter());
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;

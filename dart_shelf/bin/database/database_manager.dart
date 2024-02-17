@@ -14,7 +14,7 @@ class DB {
     return _box!;
   }
 
-  Future<List<Event>> getAllDailyTracks() async {
+  Future<List<Event>> getAllEvents() async {
     return (await box).values.cast<Event>().toList();
   }
 }

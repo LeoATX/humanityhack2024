@@ -14,18 +14,11 @@ class DB {
     return _box!;
   }
 
-  Future addEvent(Event event) async {
-    (await box).add(event);
-  }
+  Future addEvent(Event event) async => (await box).add(event);
 
   Future<List<Event>> getEvents(
       {required DateTime startTime, required DateTime endTime}) async {
     List<Event> allEvents = await getAllEvents();
-
-    // List<Event> events = []
-    // for (final event in allEvents) {
-    //   if (event.startTime.compareTo(startTime))
-    // }
 
     return allEvents
         .where((event) => (event.startTime.compareTo(startTime) >= 0 &&

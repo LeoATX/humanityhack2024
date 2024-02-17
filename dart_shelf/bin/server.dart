@@ -9,8 +9,9 @@ import './routes.dart';
 
 void main(List<String> args) async {
   // start HiveDB
-  Hive.init(
-      '${Uri.file(dirname(Platform.script.toFilePath())).toFilePath()}/hive');
+  String rootPath =
+      Uri.file(dirname(Platform.script.toFilePath())).toFilePath();
+  Hive.init('$rootPath/hive');
   Hive.registerAdapter(EventAdapter());
 
   // Use any available host or container IP (usually `0.0.0.0`).

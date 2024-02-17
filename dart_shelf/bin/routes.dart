@@ -9,7 +9,6 @@ Router get router {
   router.get('/', _rootHandler);
   router.get('/addEvent', _addEvent);
   router.get('/getEvents', _getEvents);
-  // router.get('/getAllEvents', _getAllEventsHandler);
 
   return router;
 }
@@ -54,23 +53,12 @@ Future<Response> _getEvents(Request request) async {
       endTime: DateTime.fromMillisecondsSinceEpoch(
           int.parse(requestParameters['endTime'])));
 
-  // all events for testing purposes
-  // List<Event> allEvents = await DB.instance.getAllEvents();
-
   // get the response ready
   Map<String, dynamic> response = {
     'eventCount': events.length,
-    'lat': 37.349167,
-    'lng': -121.938056
   };
 
-  List<dynamic> eventsJson = [];
-  for (var event in events) {
-    eventsJson.add(event.toJson());
-  }
+  response['events'] = events.map((e) => e.toJson()).toList();
 
-  response['events'] = eventsJson;
-
-  print(events.toString());
   return Response.ok(jsonEncode(response));
 }

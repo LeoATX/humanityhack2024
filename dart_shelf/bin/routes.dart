@@ -23,7 +23,7 @@ Response _echoHandler(Request request) {
 }
 
 Future<Response> _dataHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllDailyTracks();
+  List<Event> events = await DB.instance.getAllEvents();
 
   return Response.ok('${events.length}\n');
 }

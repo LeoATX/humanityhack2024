@@ -1,5 +1,7 @@
 import 'package:hive/hive.dart';
 import './event.dart';
+import 'dart:io';
+import 'package:path/path.dart';
 
 class DB {
   static final DB instance = DB._init();
@@ -35,5 +37,11 @@ class DB {
 
   Future<List<Event>> getAllEvents() async {
     return (await box).values.cast<Event>().toList();
+  }
+
+  void nuke() {
+    Directory(
+            '${Uri.file(dirname(Platform.script.toFilePath())).toFilePath()}/hive/')
+        .deleteSync(recursive: true);
   }
 }

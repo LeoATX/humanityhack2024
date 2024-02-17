@@ -14,6 +14,14 @@ class DB {
     return _box!;
   }
 
+  Future addEvent(Event event) async {
+    (await box).add(event);
+  }
+
+  // Future<Event> getEvents(DateTime startTime, DateTime endTime) async {
+
+  // }
+
   Future<List<Event>> getAllEvents() async {
     return (await box).values.cast<Event>().toList();
   }

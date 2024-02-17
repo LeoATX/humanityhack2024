@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:hive/hive.dart';
+import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import './database/event.dart';
-import 'package:shelf/shelf.dart';
 import 'routes.dart';
 
 void main(List<String> args) async {

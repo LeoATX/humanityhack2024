@@ -16,7 +16,7 @@ Router get router {
 
 // route handlers
 Response _rootHandler(Request req) {
-  return Response.ok('Hello, World!\n');
+  return Response.badRequest(body: 'This is a root reqeust');
 }
 
 Future<Response> _addEvent(Request request) async {

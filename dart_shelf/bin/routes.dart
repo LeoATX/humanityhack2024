@@ -9,7 +9,6 @@ Router get router {
   router.get('/', _rootHandler);
   router.get('/addEvent', _addEventHandler);
   router.get('/getEvents', _getEventsHandler);
-  router.get('/getAllEvents', _getAllEventsHandler);
 
   return router;
 }
@@ -20,12 +19,6 @@ Response _rootHandler(Request req) {
 }
 
 Future<Response> _addEventHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllEvents();
-
-  return Response.ok('${events.length}\n');
-}
-
-Future<Response> _getEventsHandler(Request request) async {
   List<Event> events = await DB.instance.getAllEvents();
 
   return Response.ok('${events.length}\n');

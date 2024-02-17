@@ -2,12 +2,13 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import './database/database_manager.dart';
 import './database/event.dart';
+import 'dart:convert';
 
 Router get router {
   final router = Router();
   router.get('/', _rootHandler);
   router.get('/echo/<message>', _echoHandler);
-  router.get('/data', _dataHandler);
+  router.get('/get-events', _getEventsHandler);
 
   return router;
 }
@@ -22,8 +23,21 @@ Response _echoHandler(Request request) {
   return Response.ok('$message\n');
 }
 
-Future<Response> _dataHandler(Request request) async {
+Future<Response> _getEventsHandler(Request request) async {
   List<Event> events = await DB.instance.getAllEvents();
 
-  return Response.ok('${events.length}\n');
+  Map<String, dynamic> response = {
+    'eventCount': 0,
+    'lat': 37.349167,
+    'lng': -121.938056
+  };
+
+  List<dynamic> eventsJson = [];
+  for (var event in events) {
+    eventsJson.add(event.toJson());
+  }
+
+  response['events'] = eventsJson;
+
+  return Response.ok('${jsonEncode(response)}\n');
 }

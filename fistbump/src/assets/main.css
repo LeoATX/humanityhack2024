@@ -1,3 +1,7 @@
 :root {
   --primary: orange;
 }
+
+body {
+  margin: 0;
+}

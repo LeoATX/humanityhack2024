@@ -38,8 +38,9 @@ class Event {
       name: json['name'],
       organization: json['organization'],
       description: json['description'],
-      startTime: json['startTime'], // TODO: fix startTime and endTime input
-      endTime: json['endTime'],
+      startTime:
+          DateTime.fromMillisecondsSinceEpoch(int.parse(json['startTime'])),
+      endTime: DateTime.fromMillisecondsSinceEpoch(int.parse(json['endTime'])),
       url: json['url'],
     );
   }

@@ -1,13 +1,16 @@
 import 'dart:io';
+import 'package:path/path.dart' show dirname;
 import 'package:hive/hive.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import './database/event.dart';
-import 'routes.dart';
+import './routes.dart';
 
 void main(List<String> args) async {
   // start HiveDB
-  Hive.init('/hive');
+  // \C:\\Users\\cyber\\OneDrive\\Documents\\GitHub\\humanityhack2024\\dart_shelf\\bin\\database
+  Hive.init(
+      '${Uri.file(dirname(Platform.script.toFilePath())).toFilePath()}/hive');
   Hive.registerAdapter(EventAdapter());
 
   // Use any available host or container IP (usually `0.0.0.0`).

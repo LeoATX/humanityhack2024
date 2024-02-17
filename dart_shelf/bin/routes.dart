@@ -7,8 +7,9 @@ import 'dart:convert';
 Router get router {
   final router = Router();
   router.get('/', _rootHandler);
-  router.get('/addEvent', _addEventHandler);
+  router.get('/addEvent', _addEvent);
   router.get('/getEvents', _getEventsHandler);
+  router.get('/getAllEvents', _getAllEventsHandler);
 
   return router;
 }
@@ -18,13 +19,15 @@ Response _rootHandler(Request req) {
   return Response.badRequest(body: 'This is a root reqeust');
 }
 
-Future<Response> _addEventHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllEvents();
-
-  return Response.ok('${events.length}\n');
+Future<Response> _addEvent(Request request) async {
+  return Response.ok('Tested\n');
 }
 
 Future<Response> _getEventsHandler(Request request) async {
+  return Response.ok('Tested\n');
+}
+
+Future<Response> _getAllEventsHandler(Request request) async {
   List<Event> events = await DB.instance.getAllEvents();
 
   Map<String, dynamic> response = {

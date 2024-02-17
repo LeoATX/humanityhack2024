@@ -1,13 +1,16 @@
+import './database/event.dart';
 import 'dart:io';
 import 'package:hive/hive.dart';
-import 'package:shelf/shelf.dart';
+import 'package:path/path.dart';
 import 'package:shelf/shelf_io.dart';
-import './database/event.dart';
+import 'package:shelf/shelf.dart';
 import 'routes.dart';
 
 void main(List<String> args) async {
   // start HiveDB
-  Hive.init('/hive');
+  String pathHive = '${dirname(Platform.script.path)}/hive';
+  Hive.init(pathHive);
+  print(pathHive);
   Hive.registerAdapter(EventAdapter());
 
   // Use any available host or container IP (usually `0.0.0.0`).

@@ -10,7 +10,7 @@ import './database/event.dart';
 final _router = Router()
   ..get('/', _rootHandler)
   ..get('/echo/<message>', _echoHandler)
-  ..get('/data', _dataHandler);
+  ..get('/getEvents', _getEventsHandler);
 
 Response _rootHandler(Request req) {
   return Response.ok('Hello, World!\n');
@@ -22,6 +22,12 @@ Response _echoHandler(Request request) {
 }
 
 Future<Response> _dataHandler(Request request) async {
+  List<Event> events = await DB.instance.getAllEvents();
+
+  return Response.ok('${events.length}\n');
+}
+
+Future<Response> _getEventsHandler(Request request) async {
   List<Event> events = await DB.instance.getAllEvents();
 
   return Response.ok('${events.length}\n');

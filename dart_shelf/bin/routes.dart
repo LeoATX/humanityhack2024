@@ -20,7 +20,19 @@ Response _rootHandler(Request req) {
 }
 
 Future<Response> _addEvent(Request request) async {
-  return Response.ok('Tested\n');
+  Map<String, String> queryParameters = request.requestedUri.queryParameters;
+
+  List<String> requiredParameters = ['name', 'startTime', 'endTime'];
+  for (String param in requiredParameters) {
+    if (!queryParameters.keys.contains(param)) {
+      return Response.ok(jsonEncode({'error': 'Missing parameter $param'}));
+    }
+  }
+
+  Event eventToAdd = Event.fromJson(queryParameters);
+  await DB.instance.addEvent(eventToAdd);
+
+  return Response.ok(jsonEncode({'message': 'Success'}));
 }
 
 Future<Response> _getEvents(Request request) async {

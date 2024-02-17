@@ -1,13 +1,16 @@
 import 'dart:io';
-
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:hive/hive.dart';
+import './database/database_manager.dart';
+import './database/event.dart';
 
 // Configure routes.
 final _router = Router()
   ..get('/', _rootHandler)
-  ..get('/echo/<message>', _echoHandler);
+  ..get('/echo/<message>', _echoHandler)
+  ..get('/data', _dataHandler);
 
 Response _rootHandler(Request req) {
   return Response.ok('Hello, World!\n');
@@ -18,7 +21,16 @@ Response _echoHandler(Request request) {
   return Response.ok('$message\n');
 }
 
+Future<Response> _dataHandler(Request request) async {
+  List<Event> events = await DB.instance.getAllDailyTracks();
+
+  return Response.ok('${events.length}\n');
+}
+
 void main(List<String> args) async {
+  // start HiveDB
+  Hive.init('/hive');
+
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
 

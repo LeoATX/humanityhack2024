@@ -28,8 +28,8 @@ class Event {
         'name': name,
         'organization': organization,
         'description': description,
-        'startTime': startTime,
-        'endTime': endTime,
+        'startTime': startTime.millisecondsSinceEpoch,
+        'endTime': endTime.millisecondsSinceEpoch,
         'url': url
       };
 

@@ -25,7 +25,8 @@ Future<Response> _addEvent(Request request) async {
   List<String> requiredParameters = ['name', 'startTime', 'endTime'];
   for (String param in requiredParameters) {
     if (!queryParameters.keys.contains(param)) {
-      return Response.ok(jsonEncode({'error': 'Missing parameter $param'}));
+      return Response.badRequest(
+          body: jsonEncode({'error': 'Missing parameter $param'}));
     }
   }
 
@@ -36,20 +37,29 @@ Future<Response> _addEvent(Request request) async {
 }
 
 Future<Response> _getEvents(Request request) async {
-
   Map<String, dynamic> requestParameters = request.requestedUri.queryParameters;
+
+  List<String> requiredParameters = ['startTime', 'endTime'];
+  for (String param in requiredParameters) {
+    if (!requestParameters.keys.contains(param)) {
+      return Response.badRequest(
+          body: jsonEncode({'error': 'Missing parameter $param'}));
+    }
+  }
 
   // get events from Andrew's db
   List<Event> events = await DB.instance.getEvents(
-      startTime:
-          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['startTime'])),
-      endTime:
-          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['endTime'])));
-  // TODO
+      startTime: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(requestParameters['startTime'])),
+      endTime: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(requestParameters['endTime'])));
+
+  // all events for testing purposes
+  // List<Event> allEvents = await DB.instance.getAllEvents();
 
   // get the response ready
   Map<String, dynamic> response = {
-    'eventCount': 0,
+    'eventCount': events.length,
     'lat': 37.349167,
     'lng': -121.938056
   };
@@ -61,24 +71,6 @@ Future<Response> _getEvents(Request request) async {
 
   response['events'] = eventsJson;
 
+  print(events.toString());
   return Response.ok(jsonEncode(response));
 }
-
-// Future<Response> _getAllEventsHandler(Request request) async {
-  // List<Event> events = await DB.instance.getAllEvents();
-
-  // Map<String, dynamic> response = {
-  //   'eventCount': 0,
-  //   'lat': 37.349167,
-  //   'lng': -121.938056
-  // };
-
-  // List<dynamic> eventsJson = [];
-  // for (var event in events) {
-  //   eventsJson.add(event.toJson());
-  // }
-
-  // response['events'] = eventsJson;
-
-  // return Response.ok('${jsonEncode(response)}\n');
-// }

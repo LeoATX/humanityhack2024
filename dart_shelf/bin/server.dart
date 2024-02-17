@@ -9,7 +9,6 @@ import './routes.dart';
 
 void main(List<String> args) async {
   // start HiveDB
-  // \C:\\Users\\cyber\\OneDrive\\Documents\\GitHub\\humanityhack2024\\dart_shelf\\bin\\database
   Hive.init(
       '${Uri.file(dirname(Platform.script.toFilePath())).toFilePath()}/hive');
   Hive.registerAdapter(EventAdapter());

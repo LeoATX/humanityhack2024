@@ -7,6 +7,7 @@ import 'routes.dart';
 void main(List<String> args) async {
   // start HiveDB
   Hive.init('/hive');
+  Hive.registerAdapter(EventAdapter());
 
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;

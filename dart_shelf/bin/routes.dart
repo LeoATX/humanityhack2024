@@ -1,17 +1,29 @@
+import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import './database/database_manager.dart';
 import './database/event.dart';
-import 'dart:convert';
 
 Router get router {
   final router = Router();
   router.get('/', _rootHandler);
   router.get('/addEvent', _addEvent);
   router.get('/getEvents', _getEvents);
-  // router.get('/getAllEvents', _getAllEventsHandler);
 
   return router;
+}
+
+// helper functions
+/// Returns a parameter that is missing or null if nothing is missing
+String? checkParameters(
+    List<String> requiredParameters, Map<String, String> queryParameters) {
+  for (String param in requiredParameters) {
+    if (!queryParameters.keys.contains(param)) {
+      return param;
+    }
+  }
+
+  return null;
 }
 
 // route handlers
@@ -23,10 +35,11 @@ Future<Response> _addEvent(Request request) async {
   Map<String, String> queryParameters = request.requestedUri.queryParameters;
 
   List<String> requiredParameters = ['name', 'startTime', 'endTime'];
-  for (String param in requiredParameters) {
-    if (!queryParameters.keys.contains(param)) {
-      return Response.ok(jsonEncode({'error': 'Missing parameter $param'}));
-    }
+  String? missingParameter =
+      checkParameters(requiredParameters, queryParameters);
+  if (missingParameter != null) {
+    return Response.badRequest(
+        body: jsonEncode({'error': 'Missing parameter $missingParameter'}));
   }
 
   Event eventToAdd = Event.fromJson(queryParameters);
@@ -36,49 +49,29 @@ Future<Response> _addEvent(Request request) async {
 }
 
 Future<Response> _getEvents(Request request) async {
+  Map<String, String> requestParameters = request.requestedUri.queryParameters;
 
-  Map<String, dynamic> requestParameters = request.requestedUri.queryParameters;
+  List<String> requiredParameters = ['startTime', 'endTime'];
+  String? missingParameter =
+      checkParameters(requiredParameters, requestParameters);
+  if (missingParameter != null) {
+    return Response.badRequest(
+        body: jsonEncode({'error': 'Missing parameter $missingParameter'}));
+  }
 
   // get events from Andrew's db
   List<Event> events = await DB.instance.getEvents(
-      startTime:
-          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['startTime'])),
-      endTime:
-          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['endTime'])));
-  // TODO
+      startTime: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(requestParameters['startTime']!)),
+      endTime: DateTime.fromMillisecondsSinceEpoch(
+          int.parse(requestParameters['endTime']!)));
 
   // get the response ready
   Map<String, dynamic> response = {
-    'eventCount': 0,
-    'lat': 37.349167,
-    'lng': -121.938056
+    'eventCount': events.length,
   };
 
-  List<dynamic> eventsJson = [];
-  for (var event in events) {
-    eventsJson.add(event.toJson());
-  }
-
-  response['events'] = eventsJson;
+  response['events'] = events.map((e) => e.toJson()).toList();
 
   return Response.ok(jsonEncode(response));
 }
-
-// Future<Response> _getAllEventsHandler(Request request) async {
-  // List<Event> events = await DB.instance.getAllEvents();
-
-  // Map<String, dynamic> response = {
-  //   'eventCount': 0,
-  //   'lat': 37.349167,
-  //   'lng': -121.938056
-  // };
-
-  // List<dynamic> eventsJson = [];
-  // for (var event in events) {
-  //   eventsJson.add(event.toJson());
-  // }
-
-  // response['events'] = eventsJson;
-
-  // return Response.ok('${jsonEncode(response)}\n');
-// }

@@ -8,8 +8,8 @@ Router get router {
   final router = Router();
   router.get('/', _rootHandler);
   router.get('/addEvent', _addEvent);
-  router.get('/getEvents', _getEventsHandler);
-  router.get('/getAllEvents', _getAllEventsHandler);
+  router.get('/getEvents', _getEvents);
+  // router.get('/getAllEvents', _getAllEventsHandler);
 
   return router;
 }
@@ -20,16 +20,34 @@ Response _rootHandler(Request req) {
 }
 
 Future<Response> _addEvent(Request request) async {
-  return Response.ok('Tested\n');
+  Map<String, String> queryParameters = request.requestedUri.queryParameters;
+
+  List<String> requiredParameters = ['name', 'startTime', 'endTime'];
+  for (String param in requiredParameters) {
+    if (!queryParameters.keys.contains(param)) {
+      return Response.ok(jsonEncode({'error': 'Missing parameter $param'}));
+    }
+  }
+
+  Event eventToAdd = Event.fromJson(queryParameters);
+  await DB.instance.addEvent(eventToAdd);
+
+  return Response.ok(jsonEncode({'message': 'Success'}));
 }
 
-Future<Response> _getEventsHandler(Request request) async {
-  return Response.ok('Tested\n');
-}
+Future<Response> _getEvents(Request request) async {
 
-Future<Response> _getAllEventsHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllEvents();
+  Map<String, dynamic> requestParameters = request.requestedUri.queryParameters;
 
+  // get events from Andrew's db
+  List<Event> events = await DB.instance.getEvents(
+      startTime:
+          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['startTime'])),
+      endTime:
+          DateTime.fromMillisecondsSinceEpoch(int.parse(requestParameters['endTime'])));
+  // TODO
+
+  // get the response ready
   Map<String, dynamic> response = {
     'eventCount': 0,
     'lat': 37.349167,
@@ -43,5 +61,24 @@ Future<Response> _getAllEventsHandler(Request request) async {
 
   response['events'] = eventsJson;
 
-  return Response.ok('${jsonEncode(response)}\n');
+  return Response.ok(jsonEncode(response));
 }
+
+// Future<Response> _getAllEventsHandler(Request request) async {
+  // List<Event> events = await DB.instance.getAllEvents();
+
+  // Map<String, dynamic> response = {
+  //   'eventCount': 0,
+  //   'lat': 37.349167,
+  //   'lng': -121.938056
+  // };
+
+  // List<dynamic> eventsJson = [];
+  // for (var event in events) {
+  //   eventsJson.add(event.toJson());
+  // }
+
+  // response['events'] = eventsJson;
+
+  // return Response.ok('${jsonEncode(response)}\n');
+// }

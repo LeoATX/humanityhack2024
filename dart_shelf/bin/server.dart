@@ -1,31 +1,8 @@
 import 'dart:io';
-import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart';
-import 'package:shelf_router/shelf_router.dart';
 import 'package:hive/hive.dart';
-import './database/database_manager.dart';
-import './database/event.dart';
-
-// Configure routes.
-final _router = Router()
-  ..get('/', _rootHandler)
-  ..get('/echo/<message>', _echoHandler)
-  ..get('/data', _dataHandler);
-
-Response _rootHandler(Request req) {
-  return Response.ok('Hello, World!\n');
-}
-
-Response _echoHandler(Request request) {
-  final message = request.params['message'];
-  return Response.ok('$message\n');
-}
-
-Future<Response> _dataHandler(Request request) async {
-  List<Event> events = await DB.instance.getAllDailyTracks();
-
-  return Response.ok('${events.length}\n');
-}
+import 'package:shelf/shelf_io.dart';
+import 'package:shelf/shelf.dart';
+import 'routes.dart';
 
 void main(List<String> args) async {
   // start HiveDB
@@ -35,7 +12,7 @@ void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
 
   // Configure a pipeline that logs requests.
-  final handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
+  final handler = Pipeline().addMiddleware(logRequests()).addHandler(router);
 
   // For running in containers, we respect the PORT environment variable.
   final port = int.parse(Platform.environment['PORT'] ?? '8080');

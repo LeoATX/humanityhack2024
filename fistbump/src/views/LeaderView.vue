@@ -20,6 +20,9 @@ export default {
 
   methods: {
     async submit() {
+        var date = new Date();
+        // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
+        console.log(((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000)))
       if (this.name == null || this.startTime == null || this.endTime == null) {
         this.error =
           "You are missing a required parameter silly (name, start time, and end time)";

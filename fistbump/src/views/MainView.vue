@@ -30,11 +30,10 @@
     </div>
     <div style="grid-column: 2; background: white; height: 100vh; overflow-y: auto; overflow-x: hidden">
       <MainNavbar />
-      <div style="margin-top:100px">
+      <div style="margin-top:100px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
         <EventItem />
-        <p style="font-size: 500px">Sigma</p>  
-        <p style="font-size: 500px">Sigma</p>  
-        <p style="font-size: 500px">Sigma</p>   
+        <EventItem />
+
       </div>  
     </div>
   </div>

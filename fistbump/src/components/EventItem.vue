@@ -14,7 +14,7 @@ export default {
 
 
 <template>
-  <div style="display: block; block-size: 15px">
+  <div style="display: block; block-size: 15px; margin-left: 10px">
     <div style="float: left">
       <h1 class="event">{{this.name }}</h1>
       <h1 class="org">{{ this.club }}</h1>

@@ -19,9 +19,21 @@
       return {
         "options": options,
         "daySelected": Date.parse(Date()),
-        "daysAway": 0,
+        "currentDay": new Date(),
         "events": [],
+        "dateMapper": {
+          0: 'Sunday',
+          1: 'Monday',
+          2: 'Tuesday',
+          3: 'Wenesday',
+          4: 'Thursday',
+          5: 'Friday',
+          6: 'Saturday'
+        }
       }
+    },
+    async mounted() {
+      this.daySelected = this.dateMapper[new Date().getDay()] + " " + (new Date().getMonth() + 1) + "/" + new Date().getDate();
     },
     methods: {
       getTimeframe() {
@@ -37,8 +49,8 @@
             last = i
           }
         }
-        // times[first].classList.add('top-border')
-        // times[last].classList.add('bottom-border')
+        times[first].classList.add('top-border')
+        times[last].classList.add('bottom-border')
         return {'start': first, 'end': last}
       },
       nextDay() {
@@ -51,18 +63,22 @@
         let remainder = epoch % 86400000;
         return epoch - remainder;
       },
+      dayLeft() {
+        this.currentDay.setDate(this.currentDay.getDate() - 1);
+      },
+      dayRight() {
+        this.currentDay.setDate(this.currentDay.getDate() + 1);
+      },
       async press() {
         let timeframe = this.getTimeframe();
-
-        let date = new Date();
 
         let getPSTEpochTimeFromIndex = (date, index) => {
           // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
           return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000))
         }
 
-        let startTimeEpoch = getPSTEpochTimeFromIndex(date, timeframe.start);
-        let endTimeEpoch = getPSTEpochTimeFromIndex(date, timeframe.end);
+        let startTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.start);
+        let endTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.end);
 
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data
       },
@@ -75,10 +91,13 @@
     <div style="grid-column: 1; grid-row: 1 / 3 background: white; height: 100vh; background: #FFF9EB;">
       <button @click="press()"></button>
       <div>
-        <div style="display: flex; flex-wrap: wrap; gap: 35px; justify-content: center;">
-          <h3 v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</h3>
+        <div style="display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
+          <img class="arrow" @click="this.dayLeft()" src="@/assets/arrow-left.png" width="25px" height="25px">
+          <span v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</span>
+          <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
-        <h1>Monday, 2/19</h1>
+        <center>^</center>
+        <center><h1> {{ this.daySelected }} </h1></center>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">
@@ -87,7 +106,7 @@
           </p>
         </div>
         <drag-select v-model="selection" clickBlankToClear="True" @click="press()">
-          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item">⠀</drag-select-option>
+          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item"></drag-select-option>
         </drag-select>
       </div>
     </div>
@@ -96,22 +115,18 @@
     </div>
     <div style="grid-column: 2; grid-row: 1 / 3; margin-top: 10vh; background: white; height: 90vh; width: 100%; overflow-y: auto; overflow-x: hidden">
       <div style=" display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
-        <EventItem />
+        <EventItem v-for="event in events" :key="event" :event="event"/>
       </div>  
     </div>
   </div>
   </template>
 
 <style>
+  .arrow:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
   .timeline {
     margin-left: 10px;
     display: flex;
@@ -140,18 +155,15 @@
   }
 
   .top-border {
-    border-top: 1px #908deb solid !important; 
-    height: 11px !important;
+    box-shadow: inset 0 2px 0px #908deb;
   }
 
   .bottom-border {
-    border-bottom: 1px #908deb solid !important; 
-    height: 11px !important;
+    box-shadow: inset 0 -2px 0px #908deb;
   }
 
   .bottom-border.top-border {
-    border: 1px #908deb solid !important; 
-    height: 10px !important;
+    box-shadow: inset 0 -2px 0px #908deb, inset 0 2px 0px #908deb !important;
   }
 
 </style>

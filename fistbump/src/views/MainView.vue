@@ -35,28 +35,10 @@
           new Date(),
           new Date(Date.parse(new Date()) + 86400000),
           new Date(Date.parse(new Date()) + (2 * 86400000)),
-        ],
-        "lastSelectTime": Date.now(),
+        ]
       }
     },
     methods: {
-      async getTimeframe() {
-        const times = document.getElementsByClassName("timeline-item");
-        let first = -1;
-        let last = -1;
-        for (let i = 0; i < 65; i++) {
-          const classes = times[i].classList;
-          if (first == -1 && classes.contains("drag-select-option--selected")) {
-            first = i
-          }
-          if (classes.contains("drag-select-option--selected")) {
-            last = i
-          }
-        }
-        times[first].classList.add('top-border')
-        times[last].classList.add('bottom-border')
-        return {'start': first, 'end': last}
-      },
       async dayLeft() {
         this.daySelected = new Date(Date.parse(new Date(this.daySelected)) -  86400000);
         this.updateDateSelector()
@@ -77,15 +59,9 @@
           new Date(Date.parse(new Date(this.daySelected)) + 86400000),
           new Date(Date.parse(new Date(this.daySelected)) + (2 * 86400000)),
         ]
+        this.events = [];
       },
       async press() {
-        if (Date.now() - this.lastSelectTime <= 100) {
-          this.lastSelectTime = Date.now();
-          return;
-        }
-
-        let timeframe = await this.getTimeframe();
-
         let getPSTEpochTimeFromIndex = (index) => {
           // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
           let midnightEpochPST = (Date.parse(new Date(this.daySelected)) - (Date.parse(new Date(this.daySelected)) % 86400000)) + 86400000 - 57600000;

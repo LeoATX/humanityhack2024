@@ -44,7 +44,6 @@
         console.log(top, bottom)
         times[top].classList.add('top-border')
         times[bottom].classList.add('bottom-border')
-        return {'start': first, 'end': last}
       },
       async dayLeft() {
         this.daySelected = new Date(Date.parse(new Date(this.daySelected)) -  86400000);

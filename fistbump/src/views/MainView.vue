@@ -5,12 +5,15 @@ export default {
 </script>
 
 <template>
-  <div style="display: grid; gridTemplateColumns: 2fr 5fr;">
-    <div style="grid-column: 1; background: red; height: 100vh">
+  <div style="display: grid; gridTemplateColumns: 25% 75%;">
+    <div style="grid-column: 1; background: white; height: 100vh">
       Ligma
     </div>
-    <div style="grid-column: 2; background: blue; height: 100vh; overflow-y: auto; overflow-x: hidden">
-      <p style="font-size: 500px">Sigma</p>
+    <div style="grid-column: 2; background: white; height: 100vh; overflow-y: auto; overflow-x: hidden">
+      <nav style="position: fixed; width: 74.05%; background: white">asd</nav>
+      <p style="font-size: 500px">Sigma</p>  
+      <p style="font-size: 500px">Sigma</p>  
+      <p style="font-size: 500px">Sigma</p>     
     </div>
   </div>
   </template>

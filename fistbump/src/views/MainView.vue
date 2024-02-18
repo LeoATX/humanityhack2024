@@ -144,7 +144,7 @@
       <MainNavbar />
     </div>
     <div style="grid-column: 2; grid-row: 1 / 3; margin-top: 10vh; background: white; height: 90vh; width: 100%; overflow-y: auto; overflow-x: hidden">
-      <div style=" display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
+      <div style="margin-top: 25px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
         <EventItem v-for="event in events" :key="event.name" :event="event"/>
       </div>  
     </div>
@@ -172,7 +172,7 @@
 
   .drag-select-option {
     width: 350px;
-    height: 1.15vh;
+    height: 1.167vh;
     color: #ffffff;
     /* border-top: 1px black solid; */
   }

@@ -2,19 +2,31 @@
 export default {
   name: "EventItem",
   props: ['event'],
+  methods: {
+    formatMinutes(minutes) {
+      console.log(typeof minutes)
+      if (minutes < 10) {
+        return "0" + minutes;
+      }
+      return minutes;
+    }
+  }
 };
 </script>
 
 
 <template>
-  <div style="display: block; block-size: 15px; margin-left: 10px">
-    <div style="float: left">
-      <h1 class="event">{{ event.name }}</h1>
-      <h1 class="org">{{ event.organization }}</h1>
+  <div style="display: block; block-size: 15px; margin: 0 50px 75px;">
+    <div style="float: left; display: flex;">
+      <img :src="event.imageURL" height="175px" style="border-radius: 10px">
+      <div>
+        <h1 class="event">{{ event.name }}</h1>
+        <h1 class="org">{{ event.organization }}</h1>
+      </div>
     </div>
-    <img src="https://cdn.discordapp.com/attachments/1208279570109960192/1208710199729455165/clock_1.png?ex=65e44618&is=65d1d118&hm=fbc8ff409cab4e17ebe658eee6c943241b6b71c639ccc93340f2fded8c1d5605&"  width="25px" height="25px"
-          style="float: right; margin-right: 30px; margin-top: 15px;">
-    <h1 class="time">{{ (new Date(event.startTime)).getHours() + ":" + (new Date(event.startTime)).getMinutes() + " - " + (new Date(event.endTime)).getHours() + ":" + (new Date(event.endTime)).getMinutes() }}</h1>
+    
+    <h1 class="time">{{ (new Date(event.startTime)).getHours() + ":" + this.formatMinutes((new Date(event.startTime)).getMinutes()) + " - " + (new Date(event.endTime)).getHours() + ":" + this.formatMinutes((new Date(event.endTime)).getMinutes()) }}</h1>
+    <img src="@/assets/clock.png"  width="28px" height="28px" style="float: right; margin-right: 10px; margin-top: 15px;">
   </div>  
 </template>
 
@@ -23,6 +35,7 @@ export default {
 /* @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Smooch+Sans:wght@100..900&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Smooch+Sans:wght@100..900&display=swap');
+
 .event{
   font-family: "Libre Baskerville", serif;
   font-size: 24px;

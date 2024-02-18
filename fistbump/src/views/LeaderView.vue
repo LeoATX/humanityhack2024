@@ -1,7 +1,6 @@
 <script>
 import axios from "axios";
-
-const baseBackendUrl = "http://localhost:8080";
+import { baseBackendUrl } from "@/helper";
 
 export default {
   name: "LeaderView",
@@ -21,7 +20,6 @@ export default {
 
   methods: {
     async submit() {
-      console.log(new Date());
       if (this.name == null || this.startTime == null || this.endTime == null) {
         this.error =
           "You are missing a required parameter silly (name, start time, and end time)";

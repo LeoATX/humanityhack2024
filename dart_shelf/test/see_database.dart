@@ -23,4 +23,7 @@ void main() async {
   }
 
   print('There are ${allEvents.length} events');
+
+  DateTime date = DateTime.fromMillisecondsSinceEpoch(1708156800000);
+  print('${date.month}/${date.day}/${date.year} ${date.hour}:${date.minute}');
 }

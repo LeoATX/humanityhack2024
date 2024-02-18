@@ -121,10 +121,8 @@
           </div>
           <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
-        <!-- <center>^</center> -->
         <center>
           <h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1>
-          <button @click="this.unselect()">Reset</button>
         </center>
       </div>
       <div class="timeline">
@@ -137,6 +135,9 @@
           <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item"></drag-select-option>
         </drag-select>
       </div>
+      <center>
+        <button @click="this.unselect()">Reset</button>
+      </center>
     </div>
     <div style="grid-column: 2; grid-row: 1; background: white; height: 100vh;">
       <MainNavbar />

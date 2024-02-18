@@ -13,6 +13,7 @@ export default {
       url: null,
       startTime: null, // required
       endTime: null, // required
+      imageURL: null,
       error: "",
       submitted: false,
     };
@@ -39,8 +40,10 @@ export default {
       await axios.get(
         `${baseBackendUrl}/addEvent?name=${this.name}&organization=${this.organization
         }&description=${this.description}&url=${this.url
-        }&startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`
+        }&startTime=${startTimeEpoch}&endTime=${endTimeEpoch}&imageURL=${this.imageURL}`
       );
+
+      submitted = true;
 
     },
   },
@@ -78,14 +81,14 @@ export default {
 
     <br />
     <label>Image Link: </label>
-    <input v-model="url" class="input" type="text" placeholder="https://unsplash.com/@leonardchen" />
+    <input v-model="imageURL" class="input" type="text" placeholder="https://unsplash.com/@leonardchen" />
 
     <br /><br>
     <button @click="submit"
       :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
     <p v-if="(name == null || startTime == null || endTime == null) == true">You are missing a required parameter silly
       (name, start time, and end time)</p>
-    <p v-if="submitted">submitted!</p>
+    <p v-if="submitted == true">submitted!</p>
 
     <p style="color: red">{{ error }}</p>
   </div>

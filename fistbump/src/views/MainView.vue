@@ -190,19 +190,19 @@
     border-right: 2px var(--border) solid !important; 
   }
 
-  .top-border {
+  .drag-select-option--selected.top-border {
     box-shadow: inset 0 2px 0px var(--border);
     /* border-top-left-radius: 10px;
     border-top-right-radius: 10px; */
   }
 
-  .bottom-border {
+  .drag-select-option--selected.bottom-border {
     box-shadow: inset 0 -2px 0px var(--border);
     /* border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px; */
   }
 
-  .bottom-border.top-border {
+  .drag-select-option--selected.bottom-border.top-border {
     box-shadow: inset 0 -2px 0px var(--border), inset 0 2px 0px var(--border) !important;
   }
 

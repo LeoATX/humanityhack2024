@@ -25,6 +25,14 @@ export default {
           "You are missing a required parameter silly (name, start time, and end time)";
         return;
       }
+
+      const startTimeEpoch = Date.parse(this.startTime);
+      const endTimeEpoch = Date.parse(this.endTime);
+      if (startTimeEpoch >= endTimeEpoch) {
+        this.error = "The end time has to be after the start time silly!"
+        return;
+      }
+
       this.error = "";
 
       await axios.get(
@@ -32,9 +40,7 @@ export default {
           this.organization
         }&description=${this.description}&url=${
           this.url
-        }&startTime=${Date.parse(this.startTime)}&endTime=${Date.parse(
-          this.endTime
-        )}`
+        }&startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`
       );
     },
   },
@@ -57,12 +63,21 @@ export default {
     />
     
     <br />
-    <label>Event description </label>
+    <label>Event description: </label>
     <input
       v-model="description"
       class="input"
       type="text"
       placeholder="Text input"
+    />
+
+    <br />
+    <label>URL: </label>
+    <input
+      v-model="url"
+      class="input"
+      type="text"
+      placeholder="www.scu.edu"
     />
 
     <br />
@@ -72,16 +87,9 @@ export default {
     <br />
     <label>End Time: </label>
     <input v-model="endTime" class="input" type="datetime-local" />
-    <button @click="submit">Submit</button>
 
     <br />
-    <label>URL/Links</label>
-    <input
-      v-model="url"
-      class="input"
-      type="text"
-      placeholder="www.scu.edu"
-    />
+    <button @click="submit">Submit</button>
 
     <p style="color: red">{{ error }}</p>
   </div>

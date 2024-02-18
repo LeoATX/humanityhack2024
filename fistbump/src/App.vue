@@ -1,6 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import MainView from './views/MainView.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -8,9 +7,7 @@ import MainView from './views/MainView.vue'
 </template>
 
 <style>
-
 .root {
   --primary: #FFD464
 }
-
 </style>

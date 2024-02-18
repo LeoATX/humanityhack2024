@@ -35,7 +35,8 @@
           new Date(),
           new Date(Date.parse(new Date()) + 86400000),
           new Date(Date.parse(new Date()) + (2 * 86400000)),
-        ]
+        ],
+        "lastSelectTime": Date.now(),
       }
     },
     methods: {
@@ -78,15 +79,26 @@
         ]
       },
       async press() {
-        let timeframe = this.getTimeframe();
-
-        let getPSTEpochTimeFromIndex = (date, index) => {
-          // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
-          return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000));
+        console.log(new Date(this.daySelected))
+        if (Date.now() - this.lastSelectTime <= 100) {
+          this.lastSelectTime = Date.now();
+          return;
         }
 
-        let startTimeEpoch = getPSTEpochTimeFromIndex(this.daySelected, timeframe.start);
-        let endTimeEpoch = getPSTEpochTimeFromIndex(this.daySelected, timeframe.end);
+        let timeframe = await this.getTimeframe();
+
+        let getPSTEpochTimeFromIndex = (index) => {
+          // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
+          return (((Date.parse(new Date(this.daySelected)) - (Date.parse(new Date(this.daySelected)) % 86400000)) - 57600000 + 28800000) + (index * 3600000));
+        }
+
+        let selectionArr = [...this.selection];
+        let startTimeEpoch = getPSTEpochTimeFromIndex(selectionArr[0]);
+        let endTimeEpoch = getPSTEpochTimeFromIndex(selectionArr[selectionArr.length - 1]);
+        console.log(selectionArr)
+
+        console.log(startTimeEpoch)
+        console.log(endTimeEpoch)
 
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },

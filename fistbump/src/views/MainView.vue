@@ -94,6 +94,17 @@
         this.applyBorders(selectionArr[0], selectionArr[selectionArr.length - 1]);
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },
+      async unselect() {
+        Array.from(document.getElementsByClassName("timeline-item")).forEach(
+          function(element, index, array) {
+            element.classList.remove('drag-select-option--selected');
+            element.classList.remove('top-border');
+            element.classList.remove('bottom-border');
+        });
+
+        let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
+        this.events = await getAllDayEvents(todayMidnightEpochPST);
+      },
     }
   };
 </script>
@@ -111,7 +122,10 @@
           <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
         <!-- <center>^</center> -->
-        <center><h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1></center>
+        <center>
+          <h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1>
+          <button @click="this.unselect()">Reset</button>
+        </center>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">

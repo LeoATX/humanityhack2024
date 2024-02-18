@@ -8,3 +8,7 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
+button {
+  font-family: 'JetBrains Mono' !important;
+}

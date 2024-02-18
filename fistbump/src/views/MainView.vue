@@ -18,8 +18,7 @@
     data: () =>  {
       return {
         "options": options,
-        "daySelected": Date.parse(Date()),
-        "currentDay": new Date(),
+        "daySelected": new Date(),
         "events": [],
         "dateMapper": {
           0: 'Sunday',
@@ -29,14 +28,18 @@
           4: 'Thursday',
           5: 'Friday',
           6: 'Saturday'
-        }
+        },
+        "dateSelector": [
+          new Date(Date.parse(new Date()) - (2 * 86400000)),
+          new Date(Date.parse(new Date()) - 86400000),
+          new Date(),
+          new Date(Date.parse(new Date()) + 86400000),
+          new Date(Date.parse(new Date()) + (2 * 86400000)),
+        ]
       }
     },
-    async mounted() {
-      this.daySelected = this.dateMapper[new Date().getDay()] + " " + (new Date().getMonth() + 1) + "/" + new Date().getDate();
-    },
     methods: {
-      getTimeframe() {
+      async getTimeframe() {
         const times = document.getElementsByClassName("timeline-item");
         let first = -1;
         let last = -1;
@@ -53,21 +56,26 @@
         times[last].classList.add('bottom-border')
         return {'start': first, 'end': last}
       },
-      nextDay() {
-        this.daySelected += 86400000;
+      async dayLeft() {
+        this.daySelected = new Date(Date.parse(new Date(this.daySelected)) -  86400000);
+        this.updateDateSelector()
       },
-      prevDay() {
-        this.daySelected -= 86400000;
+      async dayRight() {
+        this.daySelected = new Date(Date.parse(new Date(this.daySelected)) + 86400000);
+        this.updateDateSelector()
       },
-      floorDate(epoch) {
-        let remainder = epoch % 86400000;
-        return epoch - remainder;
+      async setDate(day) {
+        this.daySelected = new Date(Date.parse(new Date(day)));
+        this.updateDateSelector()
       },
-      dayLeft() {
-        this.currentDay.setDate(this.currentDay.getDate() - 1);
-      },
-      dayRight() {
-        this.currentDay.setDate(this.currentDay.getDate() + 1);
+      async updateDateSelector() {
+        this.dateSelector = [
+          new Date(Date.parse(new Date(this.daySelected)) - (2 * 86400000)),
+          new Date(Date.parse(new Date(this.daySelected)) -  86400000),
+          new Date(this.daySelected),
+          new Date(Date.parse(new Date(this.daySelected)) + 86400000),
+          new Date(Date.parse(new Date(this.daySelected)) + (2 * 86400000)),
+        ]
       },
       async press() {
         let timeframe = this.getTimeframe();
@@ -77,8 +85,8 @@
           return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000));
         }
 
-        let startTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.start);
-        let endTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.end);
+        let startTimeEpoch = getPSTEpochTimeFromIndex(this.daySelected, timeframe.start);
+        let endTimeEpoch = getPSTEpochTimeFromIndex(this.daySelected, timeframe.end);
 
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },
@@ -93,11 +101,13 @@
       <div>
         <div style="display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
           <img class="arrow" @click="this.dayLeft()" src="@/assets/arrow-left.png" width="25px" height="25px">
-          <span v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</span>
+          <div style="width: 60%; display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
+            <span v-for="day in this.dateSelector" @click="setDate(day)" class="dateSelector">{{ (new Date(day).getMonth() + 1) + "/" + new Date(day).getDate() }}</span>
+          </div>
           <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
-        <center>^</center>
-        <center><h1> {{ this.daySelected }} </h1></center>
+        <!-- <center>^</center> -->
+        <center><h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1></center>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">
@@ -123,6 +133,11 @@
 
 <style>
   .arrow:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  .dateSelector:hover {
     cursor: pointer;
     transform: scale(1.1);
   }

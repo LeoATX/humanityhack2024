@@ -74,13 +74,13 @@
 
         let getPSTEpochTimeFromIndex = (date, index) => {
           // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
-          return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000))
+          return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000));
         }
 
         let startTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.start);
         let endTimeEpoch = getPSTEpochTimeFromIndex(this.currentDay, timeframe.end);
 
-        this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data
+        this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },
     }
   };
@@ -115,7 +115,7 @@
     </div>
     <div style="grid-column: 2; grid-row: 1 / 3; margin-top: 10vh; background: white; height: 90vh; width: 100%; overflow-y: auto; overflow-x: hidden">
       <div style=" display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
-        <EventItem v-for="event in events" :key="event" :event="event"/>
+        <EventItem v-for="event in events" :key="event.name" :event="event"/>
       </div>  
     </div>
   </div>

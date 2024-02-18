@@ -28,9 +28,19 @@ String? checkParameters(
   return null;
 }
 
+const Map<String, Object> corsHeaders = {'Access-Control-Allow-Origin': '*'};
+
+Response corsWrapperOk(Object body) {
+  return Response.ok(body, headers: corsHeaders);
+}
+
+Response corsWrapperBad(Object body) {
+  return Response.badRequest(body: body, headers: corsHeaders);
+}
+
 // route handlers
 Response _rootHandler(Request req) {
-  return Response.badRequest(body: 'This is a root reqeust');
+  return corsWrapperBad('This is a root request');
 }
 
 Future<Response> _addEvent(Request request) async {
@@ -40,14 +50,14 @@ Future<Response> _addEvent(Request request) async {
   String? missingParameter =
       checkParameters(requiredParameters, queryParameters);
   if (missingParameter != null) {
-    return Response.badRequest(
-        body: jsonEncode({'error': 'Missing parameter $missingParameter'}));
+    return corsWrapperBad(
+        jsonEncode({'error': 'Missing parameter $missingParameter'}));
   }
 
   Event eventToAdd = Event.fromJson(queryParameters);
   await DB.instance.addEvent(eventToAdd);
 
-  return Response.ok(jsonEncode({'message': 'Success'}));
+  return corsWrapperOk(jsonEncode({'message': 'Success'}));
 }
 
 Future<Response> _getEvents(Request request) async {
@@ -57,8 +67,8 @@ Future<Response> _getEvents(Request request) async {
   String? missingParameter =
       checkParameters(requiredParameters, requestParameters);
   if (missingParameter != null) {
-    return Response.badRequest(
-        body: jsonEncode({'error': 'Missing parameter $missingParameter'}));
+    return corsWrapperBad(
+        jsonEncode({'error': 'Missing parameter $missingParameter'}));
   }
 
   // get events from Andrew's db
@@ -75,10 +85,10 @@ Future<Response> _getEvents(Request request) async {
 
   response['events'] = events.map((e) => e.toJson()).toList();
 
-  return Response.ok(jsonEncode(response));
+  return corsWrapperOk(jsonEncode(response));
 }
 
 Response _nuke(Request request) {
   DB.instance.nuke();
-  return Response.ok('Success');
+  return corsWrapperOk('Success');
 }

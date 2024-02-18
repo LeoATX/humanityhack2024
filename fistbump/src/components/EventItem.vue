@@ -11,7 +11,6 @@
         let hrs = 0;
         let mins = 0;
         let meridiem = '';
-        console.log(hrsNum);
 
         // format hrs
         if (hrsNum == 0) {

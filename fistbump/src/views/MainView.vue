@@ -48,7 +48,6 @@
     methods: {
       applyBorders(top, bottom) {
         const times = document.getElementsByClassName("timeline-item");
-        console.log(top, bottom)
         times[top].classList.add('top-border')
         times[bottom].classList.add('bottom-border')
       },

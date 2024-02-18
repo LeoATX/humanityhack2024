@@ -1,6 +1,8 @@
 <script>
+  import { baseBackendUrl } from "@/helper";
   import MainNavbar from '@/components/MainNavbar.vue'
   import EventItem from '@/components/EventItem.vue'
+  import axios from 'axios'
 
   import { ref } from 'vue';
 
@@ -17,7 +19,8 @@
       return {
         "options": options,
         "daySelected": Date.parse(Date()),
-
+        "daysAway": 0,
+        "events": [],
       }
     },
     methods: {
@@ -48,9 +51,20 @@
         let remainder = epoch % 86400000;
         return epoch - remainder;
       },
-      press() {
-        this.getTimeframe()
-        
+      async press() {
+        let timeframe = this.getTimeframe();
+
+        let date = new Date();
+
+        let getPSTEpochTimeFromIndex = (date, index) => {
+          // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
+          return ((((Math.floor(Date.parse(date) / 86400000 )) * 86400000) - 57600000 + 28800000) + (index * 3600000))
+        }
+
+        let startTimeEpoch = getPSTEpochTimeFromIndex(date, timeframe.start);
+        let endTimeEpoch = getPSTEpochTimeFromIndex(date, timeframe.end);
+
+        this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data
       },
     }
   };

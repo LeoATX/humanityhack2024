@@ -126,8 +126,8 @@
         </center>
       </div>
       <div class="timeline">
-        <div style="margin-right: 15px; margin-top: -25px;">
-          <p style="margin-bottom: 3.35vh; font-size: 1.2vh" v-for="time in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM']">
+        <div style="margin-right: 15px; margin-top: -20px;">
+          <p style="margin-bottom: 3.1vh; font-size: 1.2vh" v-for="time in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM']">
             {{ time }}
           </p>
         </div>
@@ -136,7 +136,7 @@
         </drag-select>
       </div>
       <center>
-        <button @click="this.unselect()">Reset</button>
+        <button @click="this.unselect()" style="width: 100px; height: 40px">Reset</button>
       </center>
     </div>
     <div style="grid-column: 2; grid-row: 1; background: white; height: 100vh;">
@@ -171,7 +171,7 @@
 
   .drag-select-option {
     width: 350px;
-    height: 1.2vh;
+    height: 1.15vh;
     color: #ffffff;
     /* border-top: 1px black solid; */
   }

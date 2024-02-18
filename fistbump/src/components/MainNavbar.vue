@@ -12,9 +12,11 @@ export default {
       <h1 class="logo">fistbump</h1>
     </div>
     <div style="float: right; margin-top: 20px; margin-right: 80px;">
-      <div class="button">
-        Manage
-      </div>
+      <RouterLink to="/leader">
+        <button class="button">
+          Manage
+        </button>
+      </RouterLink>
     </div>
   </nav>
 </template>
@@ -23,17 +25,17 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Smooch+Sans:wght@100..900&display=swap');
 
-.logo{
-     font-family: "Smooch Sans", sans-serif;
-     font-size: 48px;
-     margin: auto;
-     padding: 7px;
-     text-align: center;
-     letter-spacing: 3px;
-     font-weight: 350;
-  }
+.logo {
+  font-family: "Smooch Sans", sans-serif;
+  font-size: 48px;
+  margin: auto;
+  padding: 7px;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 350;
+}
 
-.button{
+.button {
   font-family: "Averia Serif Libre", serif;
   margin: 2px;
   padding: 10px;
@@ -44,6 +46,4 @@ export default {
   border: none;
   border-radius: 5px;
 }
-
-
 </style>

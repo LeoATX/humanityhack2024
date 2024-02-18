@@ -46,7 +46,11 @@ export default {
 </script>
 
 <template>
+
+<title>Add Event</title>
+    <br>
   <div style="margin:0 auto;">
+
     <label>Name: </label>
     <input v-model="name" class="input" type="text" placeholder="Text input" />
 
@@ -78,12 +82,9 @@ export default {
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
   font-family: "JetBrains Mono";
-}
-
-@font-face {
-  font-family: "JetBrains Mono";
-  src: url("fistbump/assets/jetbrains-mono/JetBrainsMono-Regular.woff2") format("woff2");
 }
 </style>

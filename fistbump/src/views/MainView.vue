@@ -171,7 +171,7 @@
 
   .drag-select-option {
     width: 350px;
-    height: 1.15vh;
+    height: 1.167vh;
     color: #ffffff;
     /* border-top: 1px black solid; */
   }

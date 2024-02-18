@@ -174,25 +174,25 @@
   }
 
   .drag-select-option--selected:nth-child(4n + 1) {
-    border-top: 1px var(--purple) solid !important; 
+    border-top: 1px var(--border) solid !important; 
   }
 
   .drag-select-option--selected {
-    background: #AFADF1;
+    background: var(--purple);
     border-left: 2px var(--border) solid !important; 
     border-right: 2px var(--border) solid !important; 
   }
 
   .top-border {
     box-shadow: inset 0 2px 0px var(--border);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
   }
 
   .bottom-border {
     box-shadow: inset 0 -2px 0px var(--border);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    /* border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; */
   }
 
   .bottom-border.top-border {

@@ -21,7 +21,19 @@
         "daySelected": Date.parse(Date()),
         "daysAway": 0,
         "events": [],
+        "dateMapper": {
+          0: 'Sunday',
+          1: 'Monday',
+          2: 'Tuesday',
+          3: 'Wenesday',
+          4: 'Thursday',
+          5: 'Friday',
+          6: 'Saturday'
+        }
       }
+    },
+    async mounted() {
+      this.daySelected = this.dateMapper[new Date().getDay()] + " " + (new Date().getMonth() + 1) + "/" + new Date().getDate();
     },
     methods: {
       getTimeframe() {
@@ -51,6 +63,13 @@
         let remainder = epoch % 86400000;
         return epoch - remainder;
       },
+      dayLeft() {
+        this.daysAway -= 1;
+      },
+      dayRight() {
+        this.daysAway += 1;
+        console.log(this.daysAway)
+      },
       async press() {
         let timeframe = this.getTimeframe();
 
@@ -75,10 +94,13 @@
     <div style="grid-column: 1; grid-row: 1 / 3 background: white; height: 100vh; background: #FFF9EB;">
       <button @click="press()"></button>
       <div>
-        <div style="display: flex; flex-wrap: wrap; gap: 35px; justify-content: center;">
-          <h3 v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</h3>
+        <div style="display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
+          <img class="arrow" @click="this.dayLeft()" src="@/assets/arrow-left.png" width="25px" height="25px">
+          <span v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</span>
+          <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
-        <center><h1>Monday, 2/19</h1></center>
+        <center>^</center>
+        <center><h1> {{ this.daySelected }} </h1></center>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">
@@ -112,6 +134,11 @@
   </template>
 
 <style>
+  .arrow:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
   .timeline {
     margin-left: 10px;
     display: flex;

@@ -6,23 +6,43 @@ export default {
 </script>
 
 <template>
-  <nav style="position: fixed; width: 74.05%; background: gray; display: block">
-    <div style="float: left; display: flex">
-      <img src="https://images.heb.com/is/image/HEBGrocery/000374723-1" width="75px" height="75px">
-      <h1>asfa</h1>
+  <nav style="position: fixed; width: 74.05%; background: white; display: block">
+    <div style="float: left; display: flex; margin-top: 10px; margin-left: 10px;">
+      <img src="@\assets\Logo.png" width="75px" height="75px">
+      <h1>fistbump</h1>
     </div>
-    <div style="float: right; margin-top: 25px; margin-right: 25px;">
-      <div style="border: 2px solid">
-        manage
+    <div style="float: right; margin-top: 20px; margin-right: 25px;">
+      <div class="button">
+        Manage
       </div>
     </div>
   </nav>
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Smooch+Sans:wght@100..900&display=swap');
+h1{
+     font-family: "Smooch Sans", sans-serif;
+     font-size: 48px;
+     margin: auto;
+     padding: 7px;
+     text-align: center;
+     letter-spacing: 3px;
+     font-weight: 350;
+  }
 
-.root {
-  --primary: #FFD464
+.button{
+  font-family: "Averia Serif Libre", serif;
+  margin: 2px;
+  padding: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 19px;
+  background: #FFD464;
+  border: none;
+  border-radius: 5px;
 }
+
 
 </style>

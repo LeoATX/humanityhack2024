@@ -18,16 +18,8 @@
       EventItem,
     },
     async mounted() {
-      let events = ref([]);
-      let daySelected = ref(new Date());
-
-      let todayMidnightEpochPST = getMidnightEpochPST(daySelected.value);
-      events.value = getAllDayEvents(todayMidnightEpochPST)
-
-      return {
-        events,
-        daySelected
-      }
+      let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
+      this.events = await getAllDayEvents(todayMidnightEpochPST);
     },
     data: () =>  {
       return {

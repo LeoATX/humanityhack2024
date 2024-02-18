@@ -15,6 +15,7 @@ export default {
       startTime: null, // required
       endTime: null, // required
       error: "",
+      validInput: this.name == null || this.startTime == null || this.endTime == null,
     };
   },
 
@@ -36,10 +37,8 @@ export default {
       this.error = "";
 
       await axios.get(
-        `${baseBackendUrl}/addEvent?name=${this.name}&organization=${
-          this.organization
-        }&description=${this.description}&url=${
-          this.url
+        `${baseBackendUrl}/addEvent?name=${this.name}&organization=${this.organization
+        }&description=${this.description}&url=${this.url
         }&startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`
       );
     },
@@ -48,37 +47,21 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h1>Add Event</h1>
+  <div style="margin:0 auto;">
     <label>Name: </label>
     <input v-model="name" class="input" type="text" placeholder="Text input" />
 
     <br />
     <label>Club/Organization: </label>
-    <input
-      v-model="organization"
-      class="input"
-      type="text"
-      placeholder="Text input"
-    />
-    
+    <input v-model="organization" class="input" type="text" placeholder="Text input" />
+
     <br />
     <label>Event description: </label>
-    <input
-      v-model="description"
-      class="input"
-      type="text"
-      placeholder="Text input"
-    />
+    <input v-model="description" class="input" type="text" placeholder="Text input" />
 
     <br />
     <label>URL: </label>
-    <input
-      v-model="url"
-      class="input"
-      type="text"
-      placeholder="www.scu.edu"
-    />
+    <input v-model="url" class="input" type="text" placeholder="www.scu.edu" />
 
     <br />
     <label>Start Time: </label>
@@ -89,11 +72,20 @@ export default {
     <input v-model="endTime" class="input" type="datetime-local" />
 
     <br />
-    <button @click="submit">Submit</button>
+    <button v-if="validInput" @click="submit">Submit</button>
+    <p v-else>Fill out required fields!</p>
 
     <p style="color: red">{{ error }}</p>
   </div>
 </template>
 
 <style>
+* {
+  font-family: "JetBrains Mono";
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fistbump/assets/jetbrains-mono/JetBrainsMono-Regular.woff2") format("woff2");
+}
 </style>

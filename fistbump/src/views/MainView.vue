@@ -18,16 +18,8 @@
       EventItem,
     },
     async mounted() {
-      let events = ref([]);
-      let daySelected = ref(new Date());
-
-      let todayMidnightEpochPST = getMidnightEpochPST(daySelected.value);
-      events.value = getAllDayEvents(todayMidnightEpochPST)
-
-      return {
-        events,
-        daySelected
-      }
+      let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
+      this.events = await getAllDayEvents(todayMidnightEpochPST);
     },
     data: () =>  {
       return {
@@ -39,7 +31,7 @@
           0: 'Sunday',
           1: 'Monday',
           2: 'Tuesday',
-          3: 'Wenesday',
+          3: 'Wednesday',
           4: 'Thursday',
           5: 'Friday',
           6: 'Saturday'
@@ -102,6 +94,17 @@
         this.applyBorders(selectionArr[0], selectionArr[selectionArr.length - 1]);
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },
+      async unselect() {
+        Array.from(document.getElementsByClassName("timeline-item")).forEach(
+          function(element, index, array) {
+            element.classList.remove('drag-select-option--selected');
+            element.classList.remove('top-border');
+            element.classList.remove('bottom-border');
+        });
+
+        let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
+        this.events = await getAllDayEvents(todayMidnightEpochPST);
+      },
     }
   };
 </script>
@@ -119,7 +122,10 @@
           <img class="arrow" @click="this.dayRight()" src="@/assets/arrow-right.png" width="25px" height="25px">
         </div>
         <!-- <center>^</center> -->
-        <center><h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1></center>
+        <center>
+          <h1> {{ this.dateMapper[new Date(this.daySelected).getDay()] + " " + (new Date(this.daySelected).getMonth() + 1) + "/" + new Date(this.daySelected).getDate() }} </h1>
+          <button @click="this.unselect()">Reset</button>
+        </center>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">
@@ -174,21 +180,25 @@
   }
 
   .drag-select-option--selected:nth-child(4n + 1) {
-    border-top: 1px var(--purple) solid !important; 
+    border-top: 1px var(--border) solid !important; 
   }
 
   .drag-select-option--selected {
-    background: #AFADF1;
+    background: var(--purple);
     border-left: 2px var(--border) solid !important; 
     border-right: 2px var(--border) solid !important; 
   }
 
   .top-border {
     box-shadow: inset 0 2px 0px var(--border);
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
   }
 
   .bottom-border {
     box-shadow: inset 0 -2px 0px var(--border);
+    /* border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; */
   }
 
   .bottom-border.top-border {

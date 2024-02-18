@@ -17,7 +17,15 @@
       return {
         "options": options,
         "daySelected": Date.parse(Date()),
-
+        "dateMapper": {
+          0: 'Sunday',
+          1: 'Monday',
+          2: 'Tuesday',
+          3: 'Wenesday',
+          4: 'Thursday',
+          5: 'Friday',
+          6: 'Saturday'
+        }
       }
     },
     methods: {
@@ -34,8 +42,8 @@
             last = i
           }
         }
-        // times[first].classList.add('top-border')
-        // times[last].classList.add('bottom-border')
+        times[first].classList.add('top-border')
+        times[last].classList.add('bottom-border')
         return {'start': first, 'end': last}
       },
       nextDay() {
@@ -48,8 +56,12 @@
         let remainder = epoch % 86400000;
         return epoch - remainder;
       },
+      getDay() {
+        console.log(this.dateMapper[new Date().getDay()] + " " + (new Date().getMonth() + 1) + "/" + new Date().getDate())
+      },
       press() {
         this.getTimeframe()
+        this.getDay()
         
       },
     }
@@ -73,7 +85,7 @@
           </p>
         </div>
         <drag-select v-model="selection" clickBlankToClear="True" @click="press()">
-          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item">⠀</drag-select-option>
+          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item"></drag-select-option>
         </drag-select>
       </div>
     </div>
@@ -126,18 +138,15 @@
   }
 
   .top-border {
-    border-top: 1px #908deb solid !important; 
-    height: 11px !important;
+    box-shadow: inset 0 2px 0px #908deb;
   }
 
   .bottom-border {
-    border-bottom: 1px #908deb solid !important; 
-    height: 11px !important;
+    box-shadow: inset 0 -2px 0px #908deb;
   }
 
   .bottom-border.top-border {
-    border: 1px #908deb solid !important; 
-    height: 10px !important;
+    box-shadow: inset 0 -2px 0px #908deb, inset 0 2px 0px #908deb !important;
   }
 
 </style>

@@ -1,17 +1,40 @@
 <script>
-export default {
-  name: "EventItem",
-  props: ['event'],
-  methods: {
-    formatMinutes(minutes) {
-      console.log(typeof minutes)
-      if (minutes < 10) {
-        return "0" + minutes;
+  export default {
+    name: "EventItem",
+    props: ['event'],
+    methods: {
+      formatTime(date) {
+        // raw values
+        let hrsNum = date.getHours();
+        let minsNum = date.getMinutes();
+        // formatted values
+        let hrs = 0;
+        let mins = 0;
+        let meridiem = '';
+
+        // format hrs
+        if (hrsNum == 0) {
+          hrs = 12;
+          meridiem = 'AM';
+        } else if (hrsNum >= 12 ) {
+          hrs = hrsNum % 12;
+          meridiem = 'PM';
+        } else {
+          meridiem = 'AM';
+        }
+        console.log(hrs)
+
+        // format mins
+        if (minsNum < 10) {
+          mins = `${minsNum}0`;
+        } else {
+          mins = minsNum;
+        }
+
+        return `${hrs}:${mins} ${meridiem}`
       }
-      return minutes;
     }
-  }
-};
+  };
 </script>
 
 
@@ -25,7 +48,7 @@ export default {
       </div>
     </div>
     
-    <h1 class="time">{{ (new Date(event.startTime)).getHours() + ":" + this.formatMinutes((new Date(event.startTime)).getMinutes()) + " - " + (new Date(event.endTime)).getHours() + ":" + this.formatMinutes((new Date(event.endTime)).getMinutes()) }}</h1>
+    <h1 class="time">{{ this.formatTime(new Date(event.startTime)) }} - {{ this.formatTime(new Date(event.endTime)) }}</h1>
     <img src="@/assets/clock.png"  width="28px" height="28px" style="float: right; margin-right: 10px; margin-top: 15px;">
   </div>  
 </template>

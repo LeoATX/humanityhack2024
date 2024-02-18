@@ -23,4 +23,7 @@ void main() async {
   }
 
   print('There are ${allEvents.length} events');
+
+  DateTime date = DateTime.parse('2024-02-18T05:16:34.249Z');
+  print('${date.month}/${date.day}/${date.year} ${date.hour}:${date.minute}');
 }

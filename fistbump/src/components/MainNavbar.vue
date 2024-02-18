@@ -7,9 +7,8 @@ export default {
 
 <template>
   <nav style="position: fixed; width: 74.05%; background: white; display: block">
-    <div style="float: left; display: flex; margin-top: 10px; margin-left: 10px;">
-      <img src="@\assets\Logo.png" width="75px" height="75px">
-      <h1 class="logo">fist<b>bump</b></h1>
+    <div style="float: left; display: flex; margin-top: 10px; margin-left: 25px;">
+      <img src="@\assets\fistbump.png" height="100px">
     </div>
     <div style="float: right; margin-top: 20px; margin-right: 80px;">
       <RouterLink to="/leader">

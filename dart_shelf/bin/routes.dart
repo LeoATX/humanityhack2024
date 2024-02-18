@@ -9,6 +9,8 @@ Router get router {
   router.get('/', _rootHandler);
   router.get('/addEvent', _addEvent);
   router.get('/getEvents', _getEvents);
+  // router.get('/getAllEvents', _getAllEventsHandler);
+  router.get('/nuke', _nuke);
 
   return router;
 }
@@ -74,4 +76,9 @@ Future<Response> _getEvents(Request request) async {
   response['events'] = events.map((e) => e.toJson()).toList();
 
   return Response.ok(jsonEncode(response));
+}
+
+Response _nuke(Request request) {
+  DB.instance.nuke();
+  return Response.ok('Success');
 }

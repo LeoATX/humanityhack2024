@@ -39,7 +39,7 @@ class DB {
   Future<List<Event>> getAllEvents() async =>
       (await box).values.cast<Event>().toList();
 
-  Future removeEvent(int key) async => (await box).deleteAt(key);
+  Future removeEvent(int key) async => (await box).delete(key);
 
   Future removeAllEvents(List<int> keysToRemove) async =>
       (await box).deleteAll(keysToRemove);

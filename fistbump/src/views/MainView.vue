@@ -39,7 +39,7 @@
           0: 'Sunday',
           1: 'Monday',
           2: 'Tuesday',
-          3: 'Wenesday',
+          3: 'Wednesday',
           4: 'Thursday',
           5: 'Friday',
           6: 'Saturday'
@@ -59,7 +59,6 @@
         console.log(top, bottom)
         times[top].classList.add('top-border')
         times[bottom].classList.add('bottom-border')
-        return {'start': first, 'end': last}
       },
       async dayLeft() {
         this.daySelected = new Date(Date.parse(new Date(this.daySelected)) -  86400000);

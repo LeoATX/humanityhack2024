@@ -5,7 +5,7 @@
   import { ref } from 'vue';
 
   const selection = ref([]);
-  const options = [...Array(68).keys()];
+  const options = [...Array(65).keys()];
 
   export default {
     name: "MainView",
@@ -22,10 +22,10 @@
     },
     methods: {
       getTimeframe() {
-        const times = document.getElementsByClassName("timeline");
+        const times = document.getElementsByClassName("timeline-item");
         let first = -1;
         let last = -1;
-        for (let i = 0; i < 69; i++) {
+        for (let i = 0; i < 65; i++) {
           const classes = times[i].classList;
           if (first == -1 && classes.contains("drag-select-option--selected")) {
             first = i
@@ -34,8 +34,8 @@
             last = i
           }
         }
-        
-        
+        // times[first].classList.add('top-border')
+        // times[last].classList.add('bottom-border')
         return {'start': first, 'end': last}
       },
       nextDay() {
@@ -49,11 +49,8 @@
         return epoch - remainder;
       },
       press() {
-        console.log(this.floorDate(this.daySelected))
-        // console.log(new Date.parse(Date()))
-        // this.nextDay()
-        // console.log(this.daySelected)
-        // console.log(this.getTimeframe())
+        this.getTimeframe()
+        
       },
     }
   };
@@ -75,8 +72,8 @@
             {{ time }}
           </p>
         </div>
-        <drag-select v-model="selection">
-          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline">⠀</drag-select-option>
+        <drag-select v-model="selection" clickBlankToClear="True" @click="press()">
+          <drag-select-option v-for="item in options" :value="item" data="hello" :key="item" class="timeline-item">⠀</drag-select-option>
         </drag-select>
       </div>
     </div>
@@ -123,8 +120,24 @@
   }
 
   .drag-select-option--selected {
-    /* color: #000000; */
     background: #AFADF1;
-    
+    border-left: 2px #908deb solid !important; 
+    border-right: 2px #908deb solid !important; 
   }
+
+  .top-border {
+    border-top: 1px #908deb solid !important; 
+    height: 11px !important;
+  }
+
+  .bottom-border {
+    border-bottom: 1px #908deb solid !important; 
+    height: 11px !important;
+  }
+
+  .bottom-border.top-border {
+    border: 1px #908deb solid !important; 
+    height: 10px !important;
+  }
+
 </style>

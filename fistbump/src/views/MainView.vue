@@ -33,7 +33,6 @@
       <div style="margin-top:100px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
         <EventItem />
         <EventItem />
-
       </div>  
     </div>
   </div>

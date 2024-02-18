@@ -1,5 +1,7 @@
 <script>
   import MainNavbar from '@/components/MainNavbar.vue'
+  import EventItem from '@/components/EventItem.vue'
+
   import { ref } from 'vue';
 
   const selection = ref([]);
@@ -9,6 +11,7 @@
     name: "MainView",
     components: {
       MainNavbar,
+      EventItem,
     },
     data: () =>  {
       return {
@@ -27,10 +30,11 @@
     </div>
     <div style="grid-column: 2; background: white; height: 100vh; overflow-y: auto; overflow-x: hidden">
       <MainNavbar />
+      <div style="margin-top:100px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
+        <EventItem />
+        <EventItem />
 
-      <p style="font-size: 500px">Sigma</p>  
-      <p style="font-size: 500px">Sigma</p>  
-      <p style="font-size: 500px">Sigma</p>     
+      </div>  
     </div>
   </div>
   </template>

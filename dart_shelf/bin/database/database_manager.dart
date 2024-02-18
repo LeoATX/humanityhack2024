@@ -16,7 +16,9 @@ class DB {
     return _box!;
   }
 
-  Future addEvent(Event event) async => (await box).add(event);
+  Future addEvent(Event event) async {
+    return (await box).add(event);
+  }
 
   Future<List<Event>> getEvents(
       {required DateTime startTime, required DateTime endTime}) async {

@@ -29,6 +29,7 @@ export default {
         return;
       }
 
+      // this converts to PST
       const startTimeEpoch = Date.parse(this.startTime);
       const endTimeEpoch = Date.parse(this.endTime);
       if (startTimeEpoch >= endTimeEpoch) {
@@ -49,9 +50,8 @@ export default {
 </script>
 
 <template>
-
-<title>Add Event</title>
-    <br>
+  <title>Add Event</title>
+  <br>
   <div style="margin:0 auto;">
 
     <label>Name: </label>
@@ -77,8 +77,11 @@ export default {
     <label>End Time: </label>
     <input v-model="endTime" class="input" type="datetime-local" />
 
-    <br />
-    <button @click="submit" :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
+    <br /><br>
+    <button @click="submit"
+      :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
+    <p v-if="(name == null || startTime == null || endTime == null) == true">You are missing a required parameter silly
+      (name, start time, and end time)</p>
 
     <p style="color: red">{{ error }}</p>
   </div>

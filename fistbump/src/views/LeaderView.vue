@@ -84,10 +84,12 @@ export default {
         </div>
       </div>
       <div style="float: right; margin-right: 30px;">
-        <button style="width: 125px; height: 50px;" @click="submit"
-          :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
-        <!-- <p v-if="(name == null || startTime == null || endTime == null) == true">You are missing a required parameter silly
-      (name, start time, and end time)</p> -->
+        <RouterLink to="/">
+          <button style="width: 125px; height: 50px;" @click="submit"
+            :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
+          <!-- <p v-if="(name == null || startTime == null || endTime == null) == true">You are missing a required parameter silly
+        (name, start time, and end time)</p> -->
+        </RouterLink>
         <p v-if="submitted == true">submitted!</p>
 
         <p style="color: red">{{ error }}</p>

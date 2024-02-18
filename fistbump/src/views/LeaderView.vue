@@ -20,6 +20,7 @@ export default {
 
   methods: {
     async submit() {
+        console.log(new Date());
       if (this.name == null || this.startTime == null || this.endTime == null) {
         this.error =
           "You are missing a required parameter silly (name, start time, and end time)";
@@ -74,9 +75,8 @@ export default {
     <label>End Time: </label>
     <input v-model="endTime" class="input" type="datetime-local" />
 
-    <!-- <br />
-    <button v-if="validInput" @click="submit">Submit</button>
-    <p v-else>Fill out required fields!</p> -->
+    <br />
+    <button @click="submit" :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
 
     <p style="color: red">{{ error }}</p>
   </div>

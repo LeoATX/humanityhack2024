@@ -16,9 +16,7 @@ class DB {
     return _box!;
   }
 
-  Future addEvent(Event event) async {
-    return (await box).add(event);
-  }
+  Future addEvent(Event event) async => (await box).add(event);
 
   Future<List<Event>> getEvents(
       {required DateTime startTime, required DateTime endTime}) async {
@@ -38,9 +36,13 @@ class DB {
     return allEvents;
   }
 
-  Future<List<Event>> getAllEvents() async {
-    return (await box).values.cast<Event>().toList();
-  }
+  Future<List<Event>> getAllEvents() async =>
+      (await box).values.cast<Event>().toList();
+
+  Future removeEvent(int key) async => (await box).deleteAt(key);
+
+  Future removeAllEvents(List<int> keysToRemove) async =>
+      (await box).deleteAll(keysToRemove);
 
   void nuke() {
     Directory(

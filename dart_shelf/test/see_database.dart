@@ -13,6 +13,7 @@ void main() async {
   List<Event> allEvents = await DB.instance.getAllEvents();
 
   for (Event event in allEvents) {
+    print('key: ${event.key}');
     print('name: ${event.name}');
     print('organization: ${event.organization}');
     print('description: ${event.description}');

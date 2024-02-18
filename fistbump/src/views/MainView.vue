@@ -3,10 +3,12 @@
   import MainNavbar from '@/components/MainNavbar.vue'
   import EventItem from '@/components/EventItem.vue'
   import axios from 'axios'
-
   import { ref } from 'vue';
 
-  const selection = ref([]);
+  let getMidnightEpochPST = (date) => { return (Date.parse(date) - (Date.parse(date) % 86400000)) + 86400000 - 57600000}
+  let getAllDayEvents = async (midnightEpochPST) => { return (await axios.get(`${baseBackendUrl}/getEvents?startTime=${midnightEpochPST}&endTime=${midnightEpochPST + 86400000}`)).data.events;
+ }
+
   const options = [...Array(65).keys()];
 
   export default {
@@ -15,8 +17,21 @@
       MainNavbar,
       EventItem,
     },
+    async mounted() {
+      let events = ref([]);
+      let daySelected = ref(new Date());
+
+      let todayMidnightEpochPST = getMidnightEpochPST(daySelected.value);
+      events.value = getAllDayEvents(todayMidnightEpochPST)
+
+      return {
+        events,
+        daySelected
+      }
+    },
     data: () =>  {
       return {
+        "selection": [],
         "options": options,
         "daySelected": new Date(),
         "events": [],
@@ -67,11 +82,16 @@
           new Date(Date.parse(new Date(this.daySelected)) + (2 * 86400000)),
         ]
         this.events = [];
+        if (this.selection.length > 0) {
+          this.press();
+        } else {
+          let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
+          this.events = await getAllDayEvents(todayMidnightEpochPST);
+        }
       },
       async press() {
         let getPSTEpochTimeFromIndex = (index) => {
-          // floor to get GMT midnight, sub to get PST, add to get 8 am offset, add multiple by selected index to get time at select
-          let midnightEpochPST = (Date.parse(new Date(this.daySelected)) - (Date.parse(new Date(this.daySelected)) % 86400000)) + 86400000 - 57600000;
+          let midnightEpochPST = getMidnightEpochPST(new Date(this.daySelected));
           // midnight + 8 am offset + 15 min offset
           return (midnightEpochPST + 28800000 + (index * 900000));
         }

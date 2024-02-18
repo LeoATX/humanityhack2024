@@ -11,18 +11,26 @@
         let hrs = 0;
         let mins = 0;
         let meridiem = '';
+        console.log(hrsNum);
 
         // format hrs
         if (hrsNum == 0) {
+          // midnight edge case
           hrs = 12;
           meridiem = 'AM';
-        } else if (hrsNum >= 12 ) {
+        } else if (hrsNum == 12) {
+          // noon edge case
+          hrs = hrsNum;
+          meridiem = 'PM';
+        } else if (hrsNum > 12 ) {
+          // PM converter
           hrs = hrsNum % 12;
           meridiem = 'PM';
         } else {
+          // AM converter
+          hrs = hrsNum;
           meridiem = 'AM';
         }
-        console.log(hrs)
 
         // format mins
         if (minsNum < 10) {

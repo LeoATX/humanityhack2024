@@ -15,7 +15,9 @@
     },
     data: () =>  {
       return {
-        "options": options
+        "options": options,
+        "daySelected": Date.parse(Date()),
+
       }
     },
     methods: {
@@ -25,8 +27,6 @@
         let last = -1;
         for (let i = 0; i < 69; i++) {
           const classes = times[i].classList;
-          console.log(classes)
-          console.log(typeof classes)
           if (first == -1 && classes.contains("drag-select-option--selected")) {
             first = i
           }
@@ -34,18 +34,34 @@
             last = i
           }
         }
+        
+        
         return {'start': first, 'end': last}
       },
+      nextDay() {
+        this.daySelected += 86400000;
+      },
+      prevDay() {
+        this.daySelected -= 86400000;
+      },
+      floorDate(epoch) {
+        let remainder = epoch % 86400000;
+        return epoch - remainder;
+      },
       press() {
-        console.log(this.getTimeframe())
+        console.log(this.floorDate(this.daySelected))
+        // console.log(new Date.parse(Date()))
+        // this.nextDay()
+        // console.log(this.daySelected)
+        // console.log(this.getTimeframe())
       },
     }
   };
 </script>
 
 <template>
-  <div style="display: grid; gridTemplateColumns: 2fr 5fr;">
-    <div style="grid-column: 1; background: white; height: 100vh; background: #FFF9EB;">
+  <div style="display: grid; gridTemplateColumns: 2fr 5fr; grid-auto-rows: auto;">
+    <div style="grid-column: 1; grid-row: 1 / 3 background: white; height: 100vh; background: #FFF9EB;">
       <button @click="press()"></button>
       <div>
         <div style="display: flex; flex-wrap: wrap; gap: 35px; justify-content: center;">
@@ -64,9 +80,19 @@
         </drag-select>
       </div>
     </div>
-    <div style="grid-column: 2; background: white; height: 100vh; overflow-y: auto; overflow-x: hidden">
+    <div style="grid-column: 2; grid-row: 1; background: white; height: 100vh;">
       <MainNavbar />
-      <div style="margin-top:100px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
+    </div>
+    <div style="grid-column: 2; grid-row: 1 / 3; margin-top: 10vh; background: white; height: 90vh; width: 100%; overflow-y: auto; overflow-x: hidden">
+      <div style=" display: flex; flex-direction: column; flex-wrap: nowrap; gap: 125px">
+        <EventItem />
+        <EventItem />
+        <EventItem />
+        <EventItem />
+        <EventItem />
+        <EventItem />
+        <EventItem />
+        <EventItem />
         <EventItem />
         <EventItem />
       </div>  

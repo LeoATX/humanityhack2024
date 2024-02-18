@@ -24,10 +24,11 @@ class Event extends HiveObject {
       this.description,
       required this.startTime,
       required this.endTime,
-      this.url, 
+      this.url,
       this.imageURL});
 
   Map<String, dynamic> toJson() => {
+        'id': key,
         'name': name,
         'organization': organization,
         'description': description,

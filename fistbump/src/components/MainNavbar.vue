@@ -45,5 +45,11 @@ export default {
   background: #FFD464;
   border: none;
   border-radius: 5px;
+  transition: 0.4s;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: var(--purple);
 }
 </style>

@@ -96,9 +96,9 @@
 
 <template>
   <div style="display: grid; gridTemplateColumns: 2fr 5fr; grid-auto-rows: auto;">
-    <div style="grid-column: 1; grid-row: 1 / 3 background: white; height: 100vh; background: #FFF9EB;">
-      <button @click="press()"></button>
-      <div>
+    <div style="grid-column: 1; grid-row: 1 / 3 background: white; height: 100vh; background: var(--yellow);">
+      <!-- <button @click="press()"></button> -->
+      <div style="margin-top: max(2.5vh, 15px);">
         <div style="display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
           <img class="arrow" @click="this.dayLeft()" src="@/assets/arrow-left.png" width="25px" height="25px">
           <div style="width: 60%; display: flex; flex-wrap: no-wrap; gap: 35px; justify-content: center;">
@@ -111,7 +111,7 @@
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">
-          <p style="margin-bottom: 30.25px" v-for="time in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM']">
+          <p style="margin-bottom: 3.35vh; font-size: 1.2vh" v-for="time in ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM', '12:00 AM']">
             {{ time }}
           </p>
         </div>
@@ -135,11 +135,13 @@
   .arrow:hover {
     cursor: pointer;
     transform: scale(1.1);
+    transition: 0.15s;
   }
 
   .dateSelector:hover {
     cursor: pointer;
-    transform: scale(1.1);
+    transform: scale(1.05);
+    transition: 0.15s;
   }
 
   .timeline {
@@ -150,7 +152,7 @@
 
   .drag-select-option {
     width: 350px;
-    height: 12px;
+    height: 1.2vh;
     color: #ffffff;
     /* border-top: 1px black solid; */
   }
@@ -160,25 +162,25 @@
   }
 
   .drag-select-option--selected:nth-child(4n + 1) {
-    border-top: 1px #AFADF1 solid !important; 
+    border-top: 1px var(--purple) solid !important; 
   }
 
   .drag-select-option--selected {
     background: #AFADF1;
-    border-left: 2px #908deb solid !important; 
-    border-right: 2px #908deb solid !important; 
+    border-left: 2px var(--border) solid !important; 
+    border-right: 2px var(--border) solid !important; 
   }
 
   .top-border {
-    box-shadow: inset 0 2px 0px #908deb;
+    box-shadow: inset 0 2px 0px var(--border);
   }
 
   .bottom-border {
-    box-shadow: inset 0 -2px 0px #908deb;
+    box-shadow: inset 0 -2px 0px var(--border);
   }
 
   .bottom-border.top-border {
-    box-shadow: inset 0 -2px 0px #908deb, inset 0 2px 0px #908deb !important;
+    box-shadow: inset 0 -2px 0px var(--border), inset 0 2px 0px var(--border) !important;
   }
 
 </style>

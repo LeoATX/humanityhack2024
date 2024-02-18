@@ -104,6 +104,7 @@
 
         let todayMidnightEpochPST = getMidnightEpochPST(this.daySelected);
         this.events = await getAllDayEvents(todayMidnightEpochPST);
+        this.selection = [];
       },
     }
   };

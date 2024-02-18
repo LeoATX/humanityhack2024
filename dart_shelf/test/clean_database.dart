@@ -10,26 +10,19 @@ void main() async {
   Hive.init('$rootPath/bin/hive');
   Hive.registerAdapter(EventAdapter());
 
-  List<int> eventsToDelete = [
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25
-  ];
+  List<Event> allEvents = await DB.instance.getAllEvents();
+
+  List<int> eventsToDelete = [];
+
+  for (Event event in allEvents) {
+    int key = event.key;
+
+    if (key > 9) {
+      eventsToDelete.add(key);
+    }
+  }
 
   await DB.instance.removeAllEvents(eventsToDelete);
 
-  print('Successfully deleted :)');
+  print('Successfully deleted ${eventsToDelete.length} events :)');
 }

@@ -24,10 +24,18 @@ class DB {
       {required DateTime startTime, required DateTime endTime}) async {
     List<Event> allEvents = await getAllEvents();
 
-    return allEvents
+    // filter events
+    allEvents = allEvents
         .where((event) => (event.startTime.compareTo(startTime) >= 0 &&
             event.endTime.compareTo(endTime) <= 0))
         .toList();
+
+    // sort events
+    allEvents.sort((a, b) {
+      return a.startTime.compareTo(b.startTime);
+    });
+
+    return allEvents;
   }
 
   Future<List<Event>> getAllEvents() async {

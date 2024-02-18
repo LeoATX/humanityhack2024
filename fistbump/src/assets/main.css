@@ -1,5 +1,7 @@
 :root {
-  --primary: orange;
+  --yellow: #FFF9EB;
+  --purple: #AFADF1;
+  --border: #908deb;
 }
 
 body {

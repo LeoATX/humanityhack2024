@@ -39,6 +39,13 @@
       }
     },
     methods: {
+      applyBorders(top, bottom) {
+        const times = document.getElementsByClassName("timeline-item");
+        console.log(top, bottom)
+        times[top].classList.add('top-border')
+        times[bottom].classList.add('bottom-border')
+        return {'start': first, 'end': last}
+      },
       async dayLeft() {
         this.daySelected = new Date(Date.parse(new Date(this.daySelected)) -  86400000);
         this.updateDateSelector()
@@ -73,6 +80,7 @@
         let startTimeEpoch = getPSTEpochTimeFromIndex(selectionArr[0]);
         let endTimeEpoch = getPSTEpochTimeFromIndex(selectionArr[selectionArr.length - 1] + 1);
 
+        this.applyBorders(selectionArr[0], selectionArr[selectionArr.length - 1]);
         this.events = (await axios.get(`${baseBackendUrl}/getEvents?startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`)).data.events;
       },
     }

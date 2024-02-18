@@ -67,7 +67,7 @@
         <div style="display: flex; flex-wrap: wrap; gap: 35px; justify-content: center;">
           <h3 v-for="day in ['2/17', '2/17', '2/17', '2/17', '2/17']">{{ day }}</h3>
         </div>
-        <center><h1>Monday, 2/19</h1></center>
+        <h1>Monday, 2/19</h1>
       </div>
       <div class="timeline">
         <div style="margin-right: 15px; margin-top: -25px;">

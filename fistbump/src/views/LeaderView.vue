@@ -15,6 +15,7 @@ export default {
       startTime: null, // required
       endTime: null, // required
       error: "",
+      submitted: false,
     };
   },
 
@@ -42,17 +43,19 @@ export default {
         }&description=${this.description}&url=${this.url
         }&startTime=${startTimeEpoch}&endTime=${endTimeEpoch}`
       );
+
     },
   },
 };
 </script>
 
 <template>
-  <title>Add Event</title>
-  <br>
   <div style="margin:0 auto;">
 
-    <label>Name: </label>
+    <h1>Add Event</h1>
+    <br>
+
+    <label>Event Name: </label>
     <input v-model="name" class="input" type="text" placeholder="Text input" />
 
     <br />
@@ -75,11 +78,16 @@ export default {
     <label>End Time: </label>
     <input v-model="endTime" class="input" type="datetime-local" />
 
+    <br />
+    <label>Image Link: </label>
+    <input v-model="url" class="input" type="text" placeholder="https://unsplash.com/@leonardchen" />
+
     <br /><br>
     <button @click="submit"
       :disabled="(name == null || startTime == null || endTime == null) ? '' : disabled">Submit</button>
     <p v-if="(name == null || startTime == null || endTime == null) == true">You are missing a required parameter silly
       (name, start time, and end time)</p>
+    <p v-if="submitted">submitted!</p>
 
     <p style="color: red">{{ error }}</p>
   </div>

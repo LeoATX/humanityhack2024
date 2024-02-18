@@ -15,6 +15,8 @@ class Event extends HiveObject {
   DateTime endTime;
   @HiveField(5)
   String? url;
+  @HiveField(6)
+  String? imageURL;
 
   Event(
       {required this.name,
@@ -22,7 +24,8 @@ class Event extends HiveObject {
       this.description,
       required this.startTime,
       required this.endTime,
-      this.url});
+      this.url, 
+      this.imageURL});
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -30,7 +33,8 @@ class Event extends HiveObject {
         'description': description,
         'startTime': startTime.millisecondsSinceEpoch,
         'endTime': endTime.millisecondsSinceEpoch,
-        'url': url
+        'url': url,
+        'imageURL': imageURL
       };
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -42,6 +46,7 @@ class Event extends HiveObject {
           DateTime.fromMillisecondsSinceEpoch(int.parse(json['startTime'])),
       endTime: DateTime.fromMillisecondsSinceEpoch(int.parse(json['endTime'])),
       url: json['url'],
+      imageURL: json['imageURL'],
     );
   }
 }
